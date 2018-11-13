@@ -1,0 +1,177 @@
+/* 容器样式 */
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    -text-align: center;
+    
+  }
+  
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+  
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+  
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+
+  /* 右边卡片组件 */
+  .text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    width: 480px;
+  }
+
+  /*修改样式 */
+  html,body,#app,.el-container{
+      height: 100%;
+  }
+  .el-card__header{
+    background-color: #ccc;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .el-card{
+    width: 100%;
+  }
+  .clearfix{
+    height:30px;
+  }
+  .el-alert--info{
+    height: 40px;
+   
+    background-color: #dbe3ff;
+    border: 1px solid #a2b4ee;
+  }
+  .el-alert--success{
+    height: 40px;
+    margin: 20px 0 ;
+    background-color: #dbe3ff;
+    border: 1px solid #a2b4ee;
+
+  }
+
+
+  .el-header, .el-footer {
+    color: #333;
+    line-height: 30px;
+    font-size: 18px;
+  }
+
+  .el-header h2{
+      color: #000;
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 30px;
+  }
+  .el-row{
+    margin-top:20px;
+  }
+
+  .el-footer p{
+    line-height: 100px;
+    font-size: 12px;
+    border-top: 1px solid #ccc;
+  }
+
+  .el-container{
+    background-color:rgb(230, 238, 245);
+  }
+  /* 隐藏导航栏图标 */
+  .el-submenu__title>i{
+    display:none;
+  }
+
+  /* 左边导航栏 */
+  .el-aside{
+    background: url(../images/bg_aside.jpg) repeat-y;
+  }
+  .el-submenu__title{
+    background: url(../images/bg_asideTitle.jpg) repeat-x;
+    line-height: 33px;
+    height:33px;
+    text-align:right;
+    color: #fff;
+    border-radius:4px 0 0 4px;
+    width: 210px;
+    
+    margin-left: 20px;
+    margin-bottom:10px;
+  }
+  .el-submenu .el-menu-item{
+    color:#fff;
+    line-height: 33px;
+    height:33px;
+    text-align:right;
+    padding-right:20px;
+    border-radius:4px 0 0 4px;
+    width: 210px;
+    margin-left: 20px;
+  }
+  .el-menu-item:hover{
+    background-color: rgba(255,255,255,0.2);
+    color:#fff;
+  }
+  .el-menu-item.is-active{
+    color: #000;
+  }
+  .el-menu{
+    background: transparent;
+  }
+
+    /* 左侧顶部的菜单 */
+    #leftMenuTitle{
+      line-height: 30px;
+      text-align: right;
+      padding-right: 20px;
+      color: #fff;
+      font-size: 14px;
+  }
+
+  #leftMenuTitle h1{
+    font-size: 24px;
+    padding: 30px 0px;
+}
+.el-aside a {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+
+/* addAdmin */
+.el-form-item__content{
+  width: 40%;
+}
+/* iTunes */
+.clearfix>p{
+    font-size: 14px;
+    line-height: 30px;
+}

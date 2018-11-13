@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入element css -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入index css -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+        <!-- 使用script标签发起同步请求 -->
+        <script src="/users/checkState"></script>
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>系统信息</span>
+                </div>
+                <div class="xxx">
+                    <el-alert title="商品总数" type="info" show-icon>
+                    </el-alert>
+                    <el-alert title="导入数据 alert" type="success" :closable="false">
+                    </el-alert>
+                    <el-row :gutter="30">
+                        <el-col :span="12">
+                            <div class="grid-content bg-purple">
+                                <el-card class="box-card">
+                                    <div slot="header" class="clearfix">
+                                        <span>销售排行</span>
+                                    </div>
+                                    <div class="text item">
+                                        <template>
+                                          <el-table :data="Consider" stripe style="width: 100%">
+                                                <el-table-column prop="goodsName" label="商品名称">
+                                                </el-table-column>
+                                                <el-table-column prop="salesVolume" label="销量" >
+                                                </el-table-column>
+                                            </el-table>
+                                        </template>
+                                    </div>
+                                </el-card>
+                            </div>
+                        </el-col>
+                        <el-col :span="12">
+                            <div class="grid-content bg-purple-light">
+                                <el-card class="box-card">
+                                    <div slot="header" class="clearfix">
+                                        <span>缺货的商品</span>
+                                    </div>
+                                    <div class="text item">
+                                        <template>
+                                            <el-table :data="tableData" stripe style="width: 100%">
+                                                <el-table-column prop="date" label="日期" width="180">
+                                                </el-table-column>
+                                                <el-table-column prop="name" label="姓名" width="180">
+                                                </el-table-column>
+                                                <el-table-column prop="address" label="地址">
+                                                </el-table-column>
+
+                                            </el-table>
+                                        </template>
+                                    </div>
+                                </el-card>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+
+            </el-card>
+        </el-main>
+
+    </div>
+    <!-- 引入jq  -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            // 挂载视图
+            el: "#app",
+            data() {
+                return {
+                    tableData: [{
+                        date: '2016-05-02',
+                        name: '王小虎'
+                    }, {
+                        date: '2016-05-04',
+                        name: '王小虎'
+                    }, {
+                        date: '2016-05-01',
+                        name: '王小虎'
+                    }, {
+                        date: '2016-05-03',
+                        name: '王小虎'
+                    }],
+                    Consider: [{
+                        goodsName: "海飞丝去屑洗发水",
+                        salesVolume: "8"
+                    }, {
+                        goodsName: "茅台酒",
+                        salesVolume: "2"
+                    }, {
+                        goodsName: "龙凤呈祥",
+                        salesVolume: "6"
+                    }, {
+                        goodsName: "飘柔",
+                        salesVolume: "13"
+                    }
+                    ]
+                }
+            },
+            methods: {
+                hello() {
+                    alert('Hello World!');
+                },
+                handleOpen(key, keyPath) {
+                    console.log(key, keyPath);
+                },
+                handleClose(key, keyPath) {
+                    console.log(key, keyPath);
+                }
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入element css -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入index css -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+        <!-- 使用script标签发起同步请求 -->
+        <script src="/users/checkState"></script>
+    <style>
+        .el-card.is-always-shadow{
+            width: 97%;
+            margin-left: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>添加商品信息</span>
+                </div>
+                <div class="text item">
+                    <!-- 商品的页面 -->
+                    <el-form :label-position="labelPosition" :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px"
+                        class="demo-ruleForm">
+                        <el-form-item label="所属分类" prop="cg_id">
+                            <el-select v-model="ruleForm2.cg_id" placeholder="请选择父级分类">
+                                <el-option v-for="(c, index) in categoryList" :key="index" :label="c.cg_name" :value="c.cg_id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="商品条码" prop="barcode">
+                            <el-input v-model="ruleForm2.barcode"></el-input>
+                        </el-form-item>
+                        <el-form-item label="商品名称" prop="goodsname">
+                            <el-input v-model="ruleForm2.goodsname"></el-input>
+                        </el-form-item>
+                        <el-form-item label="商品进价" prop="goodsprice">
+                            <el-input v-model="ruleForm2.goodsprice" @blur="autoFillPrice()"></el-input>
+                        </el-form-item>
+                        <el-form-item label="市场价" prop="marketprice">
+                            <el-input v-model="ruleForm2.marketprice"></el-input>
+                        </el-form-item>
+                        <el-form-item label="销售价" prop="saleprice">
+                            <el-input v-model="ruleForm2.saleprice"></el-input>
+                        </el-form-item>
+                        <el-form-item label="库存数量" prop="stockNum">
+                            <el-input v-model="ruleForm2.stockNum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="重量" prop="weigth">
+                            <el-input v-model="ruleForm2.weigth"></el-input>
+                        </el-form-item>
+                        <el-form-item label="单位" prop="unit">
+                            <el-input v-model="ruleForm2.unit"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否促销" prop="promotion">
+                            <el-radio-group v-model="ruleForm2.promotion">
+                              <el-radio value="1" label="1">启用</el-radio>
+                              <el-radio value="0" label="0">禁用</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="是否优惠" prop="discount">
+                            <el-radio-group v-model="ruleForm2.discount">
+                              <el-radio value="1" label="1">启用</el-radio>
+                              <el-radio value="0" label="0">禁用</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="商品详情" prop="goodsDetails">
+                            <el-input type="textarea" rows="5" v-model="ruleForm2.goodsDetails"></el-input>
+                          </el-form-item>
+                        <el-form-item>
+                            <el-button type="success" @click="submitForm('ruleForm2')">添加商品</el-button>
+                            <el-button @click="resetForm('ruleForm2')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-card>
+        </el-main>
+            </div>
+        </el-card>
+
+    </div>
+    <!-- 引入jq  -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+         //创建vue实例
+         new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                return {
+                    labelPosition: 'left',
+                    ruleForm2: {
+                        cg_id: null, //选择分类
+                        barcode:'', //条码
+                        goodsname:'', //商品名称
+                        goodsprice:0,  //商品进价
+                        marketprice:0, //市场价
+                        saleprice:0,    //销售价
+                        stockNum:0,   //库存数量 
+                        weigth:0,     //重量
+                        unit:'',        //单位
+                        promotion:'',  //是否促销 1/0
+                        discount:'',    //优惠折扣 1/0
+                        goodsDetails:''  //商品详情
+                    },
+                    categoryList:[], //下拉列表的数据源
+                    rules2: {
+                        cg_id: [
+                            { required: true, message: "请选择分类", trigger: 'change' }
+                        ],
+                        barcode: [
+                            { required: true, message: "请输入条码", trigger: 'blur' }
+                        ],
+                        goodsname: [
+                            { required: true, message: "商品名称必须", trigger: 'blur' }
+                        ],
+                        goodsprice: [
+                            { required: true, message: "商品价格必填", trigger: 'blur' }
+                            // ,{ type: 'number', message: "价格必需是数字", trigger: 'blur' }
+                        ]
+                    }
+                };
+            },
+            created() {
+                this.ruleForm2.barcode=new Date().getTime();
+            },
+            mounted() {
+                $.get("/category/list",(dataList)=> {
+                    //把ajax请求获取的分类修改到模型上面
+                    //console.log(dataList);
+                    this.categoryList=dataList;
+                });
+            },
+            methods: {
+                //提交表单
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            //表单验证通过
+                            //console.log(this.ruleForm2);
+                            $.post("/goods/add",this.ruleForm2,function (result) {
+                               //处理业务逻辑 
+                               console.log(result);
+                               if(result.isOk){
+                                   if(confirm("继续添加吗?")){
+                                       location.reload();
+                                   }
+                                   else{
+                                       location.href="goods_list.html";
+                                   }
+                               }
+                               else{
+                                   alert(result.msg);
+                               }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                //重置表单
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                },
+                //根据进阶自动计算销售价和市场价
+                autoFillPrice(){
+                    //商品进价goodsprice    marketprice市场价     saleprice销售价
+                    this.ruleForm2.goodsprice=parseFloat(this.ruleForm2.goodsprice).toFixed(2);
+                    this.ruleForm2.marketprice=(this.ruleForm2.goodsprice*2).toFixed(2);
+                    this.ruleForm2.saleprice=(this.ruleForm2.marketprice*0.9).toFixed(2);
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

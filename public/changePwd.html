@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入element css -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入index css -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+        <!-- 使用script标签发起同步请求 -->
+        <script src="/users/checkState"></script>
+    <!-- 本页面样式 -->
+    <style>
+            .el-card.is-always-shadow{
+                width: 97%;
+                margin-left: 20px;
+            }
+        </style>
+</head>
+
+<body>
+    <div id="app">
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>修改账号密码</span>
+            </div>
+            <div class="text item">
+
+                <el-form :model="ruleForm2" :label-position="labelPosition" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="原密码:" Prop="formerPass">
+                        <el-input v-model.number="ruleForm2.age"></el-input>
+                    </el-form-item>
+                    <el-form-item label="新密码:" prop="pass">
+                        <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="确认新密码:" prop="checkPass">
+                        <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" @click="submitForm('ruleForm2')">修改</el-button>
+                        <el-button @click="resetForm('ruleForm2')">重置</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </el-card>
+
+    </div>
+    <!-- 引入jq  -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+        //创建vue实例
+        new Vue({
+            // 挂载视图
+            el: "#app",
+            data() {
+                var checkAge = (rule, value, callback) => {
+                    if (!value) {
+                        return callback(new Error('年龄不能为空'));
+                    }
+                    setTimeout(() => {
+                        if (!Number.isInteger(value)) {
+                            callback(new Error('请输入数字值'));
+                        } else {
+                            if (value < 18) {
+                                callback(new Error('必须年满18岁'));
+                            } else {
+                                callback();
+                            }
+                        }
+                    }, 1000);
+                };
+                var validatePass = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else {
+                        if (this.ruleForm2.checkPass !== '') {
+                            this.$refs.ruleForm2.validateField('checkPass');
+                        }
+                        callback();
+                    }
+                };
+                var validatePass2 = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value !== this.ruleForm2.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    labelPosition: 'top',
+                    ruleForm2: {
+                        pass: '',
+                        checkPass: '',
+                        age: ''
+                    },
+                    rules2: {
+                        pass: [
+                            { validator: validatePass, trigger: 'blur' }
+                        ],
+                        checkPass: [
+                            { validator: validatePass2, trigger: 'blur' }
+                        ],
+                        age: [
+                            { validator: checkAge, trigger: 'blur' }
+                        ]
+                    }
+                };
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>

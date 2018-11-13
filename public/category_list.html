@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入重置样式 -->
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <!-- 引入element css -->
+    <link rel="stylesheet" href="./stylesheets/elementUI.css">
+    <!-- 引入index css -->
+    <link rel="stylesheet" href="./stylesheets/index.css">
+        <!-- 使用script标签发起同步请求 -->
+        <script src="/users/checkState"></script>
+    <!-- 本页面样式 -->
+    <style>
+        .el-card.is-always-shadow{
+            width: 97%;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>商品分类管理</span>
+                </div>
+                <div class="text item">
+                    <!-- 账号管理 -->
+                    <template>
+                        <el-table :data="tableData" style="width: 100%">
+                            <el-table-column label="编号" prop="cg_id">
+                            </el-table-column>
+                            <el-table-column label="名称" prop="cg_name">
+                            </el-table-column>
+                            <el-table-column label="父级分类">
+                                <template slot-scope="scope">
+                                    <span> {{ scope.row.father_name }}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" @click="handleEdit(scope.row.cg_id)" type="primary" plain>
+                                        <i class="el-icon-edit"></i> 编辑</el-button>
+                                    <el-button size="mini" @click="handleDelete(scope.row.cg_id)" type="danger" plain>
+                                        <i class="el-icon-delete"></i> 删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+            </el-card>
+        </el-main>
+
+    </div>
+    <!-- 引入jq  -->
+    <script src="./javascripts/jquery.min.js"></script>
+    <!-- 引入vue -->
+    <script src="./javascripts/vue.min.js"></script>
+    <!-- 引入elementUI -->
+    <script src="./javascripts/elementUI.js"></script>
+    <script>
+       //创建vue实例
+       new Vue({
+            //挂载视图
+            el: "#app",
+            data() {
+                return {
+                    tableData: []
+                };
+            },
+            methods: {
+                //编辑和删除的方法
+                handleEdit(id) {
+                    console.log("编辑的id", id);
+                },
+                handleDelete(id) {
+                    console.log("删除的id", id);
+                },
+                //抽取获取数据的ajax请求为一个公共的方法
+                getDataAjax() {
+                    $.get("/category/list", (datalist) => {
+                        //遍历分类把null空的改为顶级分类
+                        datalist.forEach((v) => {
+                            if(v.father_name==null){
+                                v.father_name="顶级分类";
+                            }
+                        });
+                        this.tableData = datalist;
+                    });
+                }
+            },
+            mounted() {
+                //调用ajax方法获取数据
+                this.getDataAjax();
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
